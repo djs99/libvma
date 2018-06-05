@@ -169,7 +169,9 @@ err:
 
 ib_ctx_handler::~ib_ctx_handler()
 {
-	g_p_event_handler_manager->unregister_ibverbs_event(m_p_ibv_context->async_fd, this);
+	if (!is_removed()) {
+		g_p_event_handler_manager->unregister_ibverbs_event(m_p_ibv_context->async_fd, this);
+	}
 	// must delete ib_ctx_handler only after freeing all resources that
 	// are still associated with the PD m_p_ibv_pd
 	BULLSEYE_EXCLUDE_BLOCK_START
